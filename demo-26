@@ -1,0 +1,23 @@
+1. accross entire application
+a. Keep the date format as dd/mm/yyyy
+b. keep the design as centralised as possible e.g PIN screen and the slide menu from left hand side
+c. On the android platform I noticed that as soon as you hit the physical "back" button on the device it logs out from the app so may be change it to go one step back or totally inactivate it and put log out option on the left side button on the device.
+d. Anywhere there is medical centre written in the app the spelling of "centre" should be this.
+
+2. In add family:
+a.when you click on a family member can we add the address of the person as well please? What about if you want to delete or edit a family member?
+b. while adding a new family member for DoB keep it "Date of Birth"
+c. the region/city is only showing regions not city could we keep that as an autocomplete box rather than a drop down?
+d. postal code is NOT an essential field.
+e. in the website there is a provision of adding a second address if anybody wants to- is it possible to do the same on the app?
+f. we also have a provision for default/regular pharmacy and medical centre on the website, can we include that here as well ? this auto-populates the repeat medicine/prescription requests.
+
+3. repeat medicines
+a. as soon as you select a pharmacy the drop down should go away
+b. when you click on the the order specific repeats the text box should open up below the radio button not above and it also should read name/description of the medicine not pharmacy name and how about having a delete button next to the box as well?
+c. in the website just above the next radio selection is a line that reads ordering repeats because: and says that the
+"health department requires patients to use more than 2/3rd of thier current supply of medicines before requesting further repeats"
+could we add something similar to that on the app as well please?
+4. repeat prescriptions
+a. specific medicines: the box that come up should be below the button not above and spelling of "medicine"
+b. fax the rx to my pharmacy: we need a box to search or auto-populate the pharmacy name here
