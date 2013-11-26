@@ -6,9 +6,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no, minimum-scale=1, maximum-scale=1">
             <title>
             </title>
-                    
-                    
-                    
                     <script type="text/javascript" src="js/libs/jquery.js"></script>
                     <script type="text/javascript" src="js/libs/jquery-ui.js"></script>
                     <script type="text/javascript" src="js/libs/jquery-ui-touch-punch.js"></script>
@@ -125,9 +122,8 @@
                 <label for="basic">User Pin</label>
                 <input id="txtPin"  type="text" name="name"  data-mini="true" />
                 
-                <div>
-                    <a id="id_PinCheck"
-                        class="btn-color" data-role="button" data-inline="true">Enter</a>
+                <div data-role="fieldcontain" class="ui-hide-label">
+                     <a id="id_PinCheck" data-mini="true" data-role="button">Enter</a>
                 </div>
             </div>
         </div>
@@ -179,14 +175,14 @@
             <div data-role="panel" id="popupPanel"  data-position="left" data-display="reveal" data-theme="a">
                 
                 
-                    <ul data-role="listview">
-                    <li data-theme="a"   data-mini="true" id="my_family"><a>My family</a></li>
-                    <li data-theme="a"  data-mini="true" id="menu_repeat_order"><a>Order medicine repeats</a></li>
-                    <li data-theme="a"   data-mini="true" id="menu_precription_order"><a>Request a repeat prescription</a></li>
-                    <li data-theme="a"   data-mini="true" id="ph_activity_log"><a>Pharmacy activity log</a></li>
-                    <li data-theme="a"   data-mini="true" id="menu_mc_activity_log"><a>Medical centre activity log</a></li>
-                    <li data-theme="a"   data-mini="true" id="menu_search_pharma"><a>Search pharmacy</a></li>
-                    <li data-theme="a"   data-mini="true" id="menu_search_medical"><a>Search medical center</a></li>
+                    <ul data-role="listview" >
+                    <li data-theme="a"   data-mini="true" id="my_family"><a align="center">My family</a></li>
+                    <li data-theme="a"  data-mini="true" id="menu_repeat_order"><a align="center">Order medicine repeats</a></li>
+                    <li data-theme="a"   data-mini="true" id="menu_precription_order"><a align="center">Request a repeat prescription</a></li>
+                    <li data-theme="a"   data-mini="true" id="ph_activity_log"><a align="center">Pharmacy activity log</a></li>
+                    <li data-theme="a"   data-mini="true" id="menu_mc_activity_log"><a align="center">Medical centre activity log</a></li>
+                    <li data-theme="a"   data-mini="true" id="menu_search_pharma"><a align="center">Search pharmacy</a></li>
+                    <li data-theme="a"   data-mini="true" id="menu_search_medical"><a align="center">Search medical centre</a></li>
                         </ul>
                   
                 
@@ -315,18 +311,23 @@
                     <label for="username">Date Of Birth:</label>
                     <input type="text" name="date3" id="DOB_family_member" class="mobiscroll" />
                 </div>
+                <div>
+                      <label for="username">Pharmacy:</label>
+                    <div data-role="fieldcontain" class="ui-hide-label" id="div_paharmacy_family_member">
+                        <ul data-role="listview" id="paharmacy_family_member" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search paharmacy...">
+                        </ul>
+                    </div>
+                </div>
                 
-                <!--div data-role="fieldcontain" class="ui-hide-label" id="div_paharmacy_family_member">
-                    <label for="username">Pharmacy:</label></br>
-                    <ul data-role="listview" id="paharmacy_family_member" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search paharmacy...">
-                    </ul>
-                </div-->
                 
-                <!--div data-role="fieldcontain" class="ui-hide-label" id="div_medical_family_member">
-                    <label for="username">medical:</label></br>
-                    <ul data-role="listview" id="medical_family_member" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search medical...">
-                    </ul>
-                </div-->
+                <div>
+                    <label for="username">medical:</label>
+                    <div data-role="fieldcontain" class="ui-hide-label" id="div_medical_family_member">
+                        
+                        <ul data-role="listview" id="medical_family_member" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search medical...">
+                        </ul>
+                    </div>
+               </div>
                 
                 <div data-role="fieldcontain" class="ui-hide-label">
                     <label for="username">Street Address:</label>
@@ -337,14 +338,14 @@
                     <input type="text" name="username" id="suburb_family_member" value="" placeholder="Suburb"/>
                 </div>
                 <div data-role="fieldcontain" class="ui-hide-label">
-                    <label for="username">Region/City *:</label>
+                    <label for="username">Region *:</label>
                     <select name="select-choice-min"  data-mini="true" id="region_family_member">
                      
                     </select>
                 </div>
 
                 <div data-role="fieldcontain" class="ui-hide-label">
-                    <label for="username">Postalcode *:</label>
+                    <label for="username">Postalcode :</label>
                     <input type="text" name="username" id="postal_code_family_member" value="" placeholder="Postalcode"/>
                 </div>
 
@@ -385,8 +386,7 @@
                     
                 </div>
                 
-                <div id="div_specific_pharmacy">
-                </div>
+               
                 
                 <div data-role="fieldcontain" >
                     
@@ -395,9 +395,13 @@
                     </fieldset>
                 </div>
                 
+                <div id="div_specific_pharmacy">
+                </div>
                 
                 <div data-role="fieldcontain" >
-                    
+                    <label for="select-place_order" >N.B. Health department requires patients to use up at least 2/3rd of their current medicines before requesting further repeats, unless:</label>
+                </div>
+                <div data-role="fieldcontain" >
                     <label for="select-place_order" >Ordering repeats because *</label>
                     <fieldset data-role="controlgroup" class="redio_btn" data-mini="true" id="radio_order_repeat">
                     </fieldset>
@@ -438,15 +442,16 @@
                     
                 </div>
             
-                <div id="div_specific_medicne">
-               </div>
-                
                 <div data-role="fieldcontain">
                     <label for="select-place_order">Medicine(s) you require *</label>
                     <fieldset data-role="controlgroup" class="redio_btn" data-mini="true" id="radio_medicine_type">
                     </fieldset>
                 </div>
                 
+                <div id="div_specific_medicne">
+                </div>
+                
+
                 <div data-role="fieldcontain">
                     <label for="select-place_order">Pick up yourself / fax to my pharmacy *</label>
                     <fieldset data-role="controlgroup" class="redio_btn" data-mini="true" id="radio_pickup_repeat">
@@ -474,7 +479,7 @@
                 </div>
             </div>
         </div>
-        <!-- show inforamtion of medical center activity log-->
+        <!-- show inforamtion of medical centre activity log-->
         <div data-role="page" data-theme="a"  id="id_MC_activity_page">
             
             <div data-role="header" class="header-color" data-position="fixed">
@@ -583,11 +588,11 @@
         </div>
         
         
-        <!-- search medical center-->
+        <!-- search medical centre-->
         <div data-role="page" data-theme="a" id="searchaMedical">
             
             <div data-role="header" class="header-color" data-position="fixed">
-                <img src="img/logo.png" class="ui-btn-right" style=" height:35px;width:100px"class="ui-btn-right" /><h1>Search medical Center</h1>
+                <img src="img/logo.png" class="ui-btn-right" style=" height:35px;width:100px"class="ui-btn-right" /><h1>Search medical centre</h1>
                 <a onclick="goToBackPage('id_menuPage')" data-icon="back" data-iconpos="notext"></a>
             </div>
             
@@ -604,7 +609,7 @@
                 </div>
                 
                 <div data-role="fieldcontain" id="div_search_medical_auto">
-                    <ul data-role="listview" id="search_medical_auto" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search medical center...">
+                    <ul data-role="listview" id="search_medical_auto" data-inset="true" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search medical centre...">
                     </ul>
                 </div>
                 

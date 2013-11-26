@@ -307,7 +307,7 @@ function showFamile()
                            var content = "<div data-role='collapsible' id='set" + i + "'>";
                                content+="<h3>"+result[i].Firstname+"</h3>";
                                content+="<p>Name: "+result[i].Firstname+' '+result[i].Middlename+' '+result[i].Lastname+"</p>";
-                               content+="<p>DOB: "+result[i].Dateofbirth+"</p>";
+                               content+="<p>Date of birth: "+result[i].Dateofbirth+"</p>";
                                content+="<p>Ph: "+result[i].Phoneno+"</p>";
                                content+="<p>Relation: "+result[i].Relations;
                                content+="<a data-role='button' onclick=\"required_field_add_family('"+result[i].nid+"')\"  data-icon='edit' data-theme='a'  data-iconpos='left' data-mini='true' data-inline='true'>Edit</a></p>";
@@ -341,8 +341,8 @@ function showRepeatOrder()
 {
     $.mobile.showPageLoadingMsg();
     $.mobile.changePage('#id_repeat_medi_order', { transition: "slide", changeHash: false });
+    document.getElementById('div_specific_pharmacy').innerHTML = '';
     document.getElementById('select-place_order').innerHTML = '';
-    
     /*fill the list of family mambers */
     for(var i=0;i<listFamilyMember.length;i++)
     {
@@ -485,6 +485,7 @@ function pharmacy_list(id1,id2)
 
 function submit_repeat_medical(){
     
+    alert("asd");
     var infoObj=localStorage.getObj("logininfo");
 
     var familySelectplaceOrderUserName = infoObj['user']['name'];
@@ -547,6 +548,7 @@ function submit_repeat_medical(){
 
 function submit_request_repeat_prescription()
 {
+ 
      console.log(localStorage.deviceToken);
     var infoObj=localStorage.getObj("logininfo");
     var familySelectplaceOrderUserName = infoObj['user']['name'];
@@ -669,6 +671,8 @@ function required_field_add_family(nid)
     {
         getRelation_add_family("7",str_relation);
         getregion_family_member("2",str_region);
+        pharmacy_list("paharmacy_family_member","div_paharmacy_family_member");
+        medical_list("medical_family_member","div_medical_family_member");
     },100);
 }
 function getRelation_add_family(vid,str_relation)
@@ -926,7 +930,7 @@ function ordering_repeats_because(vid)
 function add_more_medicne_repeat_medical()
 {
     var content="<div data-role='fieldcontain'>";
-    content += "<input type='text' placeholder='pharmacy name'/>";
+    content += "<input type='text' placeholder='description of the medicine'/>";
     content+="</div>";
     
     $("#parmecy_list_container").append( content ).trigger('create');;
@@ -940,7 +944,7 @@ function specific_medicine_repeat_medical(tid)
         if(tid==123)
         {
             var content="<div data-role='fieldcontain' id='parmecy_list_container'>";
-            content += "<input type='text' name='username' placeholder='pharmacy name' />";
+            content += "<input type='text' name='username' placeholder='description of the medicine' />";
             content+="</div>";
             content+="<div data-role='fieldcontain' >";
             content+="<input type='button' style='width:120px;' id='#add_medicne_list' onclick='add_more_medicne_repeat_medical()' value='add' />";
@@ -959,7 +963,7 @@ function specific_medicine_repeat_medical(tid)
 function add_more_medicne_repeat_prescription()
 {
     var content="<div data-role='fieldcontain'>";
-    content += "<input type='text' placeholder='medicne name'/>";
+    content += "<input type='text' placeholder='medicine name'/>";
     content+="</div>";
 
     $("#medicne_list_container").append( content ).trigger('create');;
@@ -974,7 +978,7 @@ function specific_medicine_list_repeat_prescription(tid)
     if(tid==217)
     {
         var content="<div data-role='fieldcontain' id='medicne_list_container'>";
-        content += "<input type='text' name='username' placeholder='medicne name' />";
+        content += "<input type='text' name='username' placeholder='Description of the medicine' />";
         content+="</div>";
         content+="<div data-role='fieldcontain' >";
         content+="<input type='button' style='width:120px;' id='#add_medicne_list' onclick='add_more_medicne_repeat_prescription()' value='add' />";
