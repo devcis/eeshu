@@ -134,7 +134,7 @@ function registerUser()
            localStorage.uri=result['uri'];
            localStorage.pinValue=pin;
            load_menu_page_info();
- 
+//            $.mobile.changePage('#id_login_page');
            
            for(var i in result)
            console.log(i +"----"+result[i]);
@@ -307,6 +307,9 @@ function showFamile()
                            var content = "<div data-role='collapsible' id='set" + i + "'>";
                                content+="<h3>"+result[i].Firstname+"</h3>";
                                content+="<p>Name: "+result[i].Firstname+' '+result[i].Middlename+' '+result[i].Lastname+"</p>";
+               
+                               var myDate=new Date(result[i].Dateofbirth);
+                               console.log(result[i].Dateofbirth);
                                content+="<p>Date of birth: "+result[i].Dateofbirth+"</p>";
                                content+="<p>Ph: "+result[i].Phoneno+"</p>";
                                content+="<p>Relation: "+result[i].Relations;
@@ -402,7 +405,8 @@ function medical_list(id1,id2)
   
     var id_autosearch_ui="#"+id1;
     var id_autosearch_div="#"+id2;
-
+    document.getElementById(id1).innerHTML = '';
+    $(id_autosearch_div+' input[data-type="search"]').val("");
     $.mobile.showPageLoadingMsg();
     $.ajax({
            url:'http://www.repeatorderingsystem.co.nz/rest/registered_mc.json',
@@ -433,6 +437,7 @@ function fill_medical_list(id,value,id_atr)
     
     nid_medical_search_list=id_atr;
     $(''+id+' input[data-type="search"]').val(value);
+    $(id).find('[data-role=listview]').children().addClass('ui-screen-hidden');
     medicalAuto_searchText=value;
 }
 
@@ -440,7 +445,7 @@ function fill_Search_Pharmacy(id,value,id_atr)
 {
     
     $(''+id+' input[data-type="search"]').val(value);
-   
+    $(id).find('[data-role=listview]').children().addClass('ui-screen-hidden');
     pharmacyAuto_searchText=value;
     nid_phahrmacy_search_list=id_atr;
 
@@ -452,7 +457,11 @@ function pharmacy_list(id1,id2)
 {
     var id_autosearch_ui="#"+id1;
     var id_autosearch_div="#"+id2;
-      $.mobile.showPageLoadingMsg();
+    $.mobile.showPageLoadingMsg();
+    
+    document.getElementById(id1).innerHTML = '';
+    $(id_autosearch_div+' input[data-type="search"]').val("");
+    
     $.ajax({
            url:'http://www.repeatorderingsystem.co.nz/rest/registered_pharmacy.json',
            success: function(result) {
@@ -483,12 +492,10 @@ function pharmacy_list(id1,id2)
 }
 
 
-function submit_repeat_medical(){
+function submit_repeat_medical()
+{
     
-    alert("asd");
-    var infoObj=localStorage.getObj("logininfo");
-
-    var familySelectplaceOrderUserName = infoObj['user']['name'];
+    var familySelectplaceOrderUserName = $("#select-place_order").val();
     var familySelectplaceOrderUserId = $("#select-place_order").find(":selected").attr("id_atr");
     
     var radiopharmacyName=$("#pharmacyAuto").val();
@@ -550,8 +557,9 @@ function submit_request_repeat_prescription()
 {
  
      console.log(localStorage.deviceToken);
-    var infoObj=localStorage.getObj("logininfo");
-    var familySelectplaceOrderUserName = infoObj['user']['name'];
+//    var infoObj=localStorage.getObj("logininfo");
+//    var familySelectplaceOrderUserName = infoObj['user']['name'];
+    var familySelectplaceOrderUserName = $("#family_select-place_order").val();
     var familySelectplaceOrderUserId = $("#family_select-place_order").find(":selected").attr("id_atr");
     familySelectplaceOrderUserName=$.trim(familySelectplaceOrderUserName);
     var medicalName=$("#medicalAuto").val();
@@ -741,8 +749,10 @@ function getregion_family_member(vid,str_region)
                html+='<option id="region_family_member'+key+'" value="'+result[key].tid+'">'+result[key].name+'</option>';
                $("#region_family_member").append( html );
                }
-                $('#region_family_member0').attr("selected","selected");
-               $('#relation_family_member').selectmenu("refresh");
+                $('#region_family_member').selectmenu("refresh");
+                $('#region_family_member').attr('selected', true);
+               
+               
 //               $("#region_family_member").find("option:value('"+str_region+"')").each(function()
 //                 {
 //                         if( jQuery(this).text() ==  str_relation)
@@ -1272,6 +1282,9 @@ function search_city_region_pharma()
 {
     $("#username_search_pharmacy").val("");
     $("#subrb_search_pharmacy").val("");
+    
+    
+    
     document.getElementById('search_paharmacy_auto').innerHTML = '';
     $('#div_search_paharmacy_auto input[data-type="search"]').val("");
     
