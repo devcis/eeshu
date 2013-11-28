@@ -48,9 +48,9 @@ $(document).delegate('#id_login','click',function()
    
      var username = $( "#txtLoginUserName" ).val();
      var password = $( "#txtLoginAPssword" ).val();
-     var pin = $( "#txtLoginPin" ).val();
+     
                   
-     if(username.length>0 && password.length>0 && pin.length >0 )
+     if(username.length>0 && password.length>0 )
      {
                      gotoLogin();
      }
@@ -281,4 +281,7 @@ $(document).delegate('#id_submit_pharma_medical','click',function()
 
 
 });
-
+$(document).delegate('#id_login_pin_value','click',function()
+{
+       $.mobile.changePage('#id_PinEnter');
+});

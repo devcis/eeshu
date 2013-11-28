@@ -62,20 +62,23 @@
                 <img src="img/logo.png" class="ui-btn-right" style=" height:35px;width:100px"class="ui-btn-right" /><h1>Login</h1>
                 
             </div>
-            <div id="homePage_content_id" data-role="content" >
+            <div id="homePage_content_id" data-role="content"   >
                 
                 <label for="basic">User Name:</label>
                 <input       type="text" autocapitalize="off" autocorrect="off" name="name" id="txtLoginUserName" data-mini="true" />
                 <label for="basic">Password:</label>
                 <input  type="password" autocapitalize="off" autocorrect="off" name="name" id="txtLoginAPssword" data-mini="true" />
-                <label for="basic">Set pin for further login:</label>
-                <input   type="text" name="name" id="txtLoginPin" data-mini="true" />
+                <!--label for="basic">Set pin for further login:</label>
+                <input   type="text" name="name" id="txtLoginPin" data-mini="true" /-->
                 
-                <div>
+                <div style="text-align: center;">
                     <a id="id_signup" class="btn-color"data-role="button" data-inline="true">Sign up</a>
                     <a id="id_login"  class="btn-color" data-role="button" data-inline="true">Login</a>
-                    
                 </div>
+                <div data-role="fieldcontain" class="ui-hide-label">
+                    <a id="id_login_pin_value" data-mini="true" data-role="button">Login With Pin value</a>
+                </div>
+                
             </div>
         </div>
         
@@ -109,6 +112,7 @@
         <div data-role="page" data-theme="a" id="id_PinEnter" >
             
             <div data-role="header" data-position="fixed">
+                 <a href="#id_login_page" class="jqm-navmenu-link" data-icon="back" data-iconpos="notext" data-mini="false">Navigation</a>
                 <div style="text-align: center;">
                     <span align="center">
                         <img style=" height:35px;width:100px" src="img/logo.png"/><br/>

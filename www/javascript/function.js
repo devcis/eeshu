@@ -40,7 +40,8 @@ function onDeviceReady() {
     else
     {
 //        getToknenid();
-        checkMemberId()
+//        checkMemberId();
+         $.mobile.changePage('#id_login_page');
     }
 }
 
@@ -95,6 +96,33 @@ function getToknenid(isRegister)
 
 }
 
+function getPin()
+{
+    var uid=localStorage.uid;
+    var url="http://www.repeatorderingsystem.co.nz/rest/user/"+uid+".json";
+    
+    
+    $.mobile.showPageLoadingMsg();
+    $.ajax({
+           url:url,
+           success: function(result) {
+           localStorage.pinValue=result['field_login_pin_value']['und'][0]['value'];
+           localStorage.setObj(result);
+           $.mobile.hidePageLoadingMsg();
+           load_menu_page_info();
+           },
+           error: function(result) {
+           
+           customAlert(result.responseText,"ROS Alert!","ok");
+           
+           $.mobile.hidePageLoadingMsg();
+           for(var i in result)
+           console.log(i +"----"+result[i]);
+           }
+           });
+    
+}
+
 var responceRegister=JSON.stringify({"uid":"107","uri":"http://www.repeatorderingsystem.co.nz/rest/user/107"});
 
 function registerUser()
@@ -127,19 +155,20 @@ function registerUser()
            
            customAlert("registraion success","ROS Alert!","ok");
            
-           /*parsing registraion data*/
-           //               var parseData =JSON.parse(msg);
-           /*store object to local storage for future use*/
+        
            localStorage.uid=result['uid'];
            localStorage.uri=result['uri'];
-           localStorage.pinValue=pin;
+           setTimeout(function(){
+                      getPin();
+                      }, 10000);
            load_menu_page_info();
-//            $.mobile.changePage('#id_login_page');
+
            
            for(var i in result)
            console.log(i +"----"+result[i]);
            },
            error: function(msg) {
+           $.mobile.hidePageLoadingMsg();
              customAlert(msg.responseText,"ROS Alert!","ok");
            
            }
@@ -175,7 +204,6 @@ function gotoLogin()
 {
     var username = $( "#txtLoginUserName" ).val();
     var password = $( "#txtLoginAPssword" ).val();
-    var pin = $( "#txtLoginPin" ).val();
     
     var data="{'username':'"+username+"','password':'"+password+"'}";
     var jsonData = JSON.stringify(eval("(" + data + ")"));
@@ -195,24 +223,24 @@ function gotoLogin()
            dataType: 'json',
            processData: false,
            success: function(result) {
-          
            $.mobile.hidePageLoadingMsg();
            logininfo=result;
            localStorage.setObj("logininfo", logininfo);
             /*store object to local storage for future use*/
-           localStorage.pinValue=pin;
            localStorage.uid=result.user.uid;
            localStorage.name = result.user.name;
 
            
             getToknenid("");
-           
+           setTimeout(function(){
+                      getPin();
+                      }, 10000);
            
            for(var i in result)
            console.log(i +"----"+result[i]);
            },
            error: function(msg) {
-            customAlert(result.responseText,"ROS Alert!","ok");
+            customAlert(msg.responseText,"ROS Alert!","ok");
            $.mobile.hidePageLoadingMsg();
 
            }
@@ -222,18 +250,23 @@ function gotoLogin()
 function checkPin()
 {
     var pinValue = $( "#txtPin" ).val();
-
     if(pinValue.length >0 )
     {
-        
-        if(localStorage.pinValue == pinValue)
+        if(localStorage.pinValue)
         {
-            getToknenid("");
-           
+            if(localStorage.pinValue == pinValue)
+            {
+                getToknenid("");
+               
+            }
+            else
+            {
+                customAlert("Invalid Pin, please enter correct pin.","ROS Alert!","ok");
+            }
         }
         else
         {
-            customAlert("Invalid Pin, please enter correct pin.","ROS Alert!","ok")
+             customAlert("please complete login or register process.","ROS Alert!","ok")            
         }
     }
     else
@@ -308,12 +341,17 @@ function showFamile()
                                content+="<h3>"+result[i].Firstname+"</h3>";
                                content+="<p>Name: "+result[i].Firstname+' '+result[i].Middlename+' '+result[i].Lastname+"</p>";
                
-                               var myDate=new Date(result[i].Dateofbirth);
-                               console.log(result[i].Dateofbirth);
-                               content+="<p>Date of birth: "+result[i].Dateofbirth+"</p>";
+                               var intDate=parseInt(result[i]['Dateofbirth']);
+                               var DOB=new Date();
+                               DOB.setMilliseconds(intDate);
+                               var strDate=dateToYMD(DOB);
+                              
+                               console.log(DOB.toString(strDate));
+                               content+="<p>Date of birth: "+strDate+"</p>";
                                content+="<p>Ph: "+result[i].Phoneno+"</p>";
-                               content+="<p>Relation: "+result[i].Relations;
-                               content+="<a data-role='button' onclick=\"required_field_add_family('"+result[i].nid+"')\"  data-icon='edit' data-theme='a'  data-iconpos='left' data-mini='true' data-inline='true'>Edit</a></p>";
+                               content+="<p>Relation: "+result[i].Relations+"</p>";
+                               content+="<p><a data-role='button' onclick=\"required_field_add_family('"+result[i].nid+"')\"  data-icon='edit' data-theme='a'  data-iconpos='left' data-mini='true' data-inline='true'>Edit</a>";
+                               content+="<a data-role='button' onclick=\"delete_family_member('"+result[i].nid+"')\"  data-icon='delete' data-theme='a'  data-iconpos='left' data-mini='true' data-inline='true'>Delete</a></p>";
                                content+="</div>";
                
                
@@ -617,6 +655,37 @@ function submit_request_repeat_prescription()
            });
 }
 
+function delete_family_member(id)
+{
+    console.log(id);
+    $.mobile.showPageLoadingMsg();
+    $.ajax({
+           type: "DELETE",
+           beforeSend: function (request)
+           {
+               request.setRequestHeader("X-CSRF-Token",localStorage.deviceToken);
+               request.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+           },
+           url:"http://www.repeatorderingsystem.co.nz/rest/node/"+id+".json",
+           dataType: 'json',
+           processData: false,
+           success: function(result) {
+               $.mobile.hidePageLoadingMsg();
+               customAlert("Family member successfully Deleted","ROS Alert!","ok");
+                setTimeout(function()
+                {
+                    showFamile();
+                },3000);
+           },
+           error: function(msg) {
+               for(var i in msg)
+                   console.log(i +"----"+msg[i]);
+                   $.mobile.hidePageLoadingMsg();
+                   customAlert(msg.statusText,"ROS Error !","ok");
+               }
+           });
+}
+
 
 function required_field_add_family(nid)
 {
@@ -642,13 +711,17 @@ function required_field_add_family(nid)
         var html = objRecord['Phoneno'];
         var div_phone_no = document.createElement("div");
         div_phone_no.innerHTML = html;
-         
+        
+        var intDate=parseInt(objRecord['Dateofbirth']);
+        var DOB=new Date();
+        DOB.setMilliseconds(intDate);
+        var strDate=dateToYMD(DOB);
         
         $( "#firstname_family_member" ).val(objRecord['Firstname']);
         $( "#middle_family_member" ).val(objRecord['Middlename']);
         $( "#last_name_family_member" ).val(objRecord['Lastname']);
         $( "#phone_no_family_member" ).val(div_phone_no.innerText);
-        $( "#DOB_family_member" ).val(objRecord['Dateofbirth']);
+        $( "#DOB_family_member" ).val(strDate);
         $( "#street_address_family_member" ).val();
         $( "#suburb_family_member" ).val();
          $( "#postal_code_family_member" ).val();
@@ -1510,6 +1583,16 @@ running:function(id){
     alert("I am currently running, what should I do? ID="+id);
   }
 };
+
+
+
+function dateToYMD(date) {
+    var d = date.getDate();
+    var m = date.getMonth() + 1;
+    var y = date.getFullYear();
+    return '' + (d <= 9 ? '0' + d : d) + '/' + (m<=9 ? '0' + m : m) + '/' + y ;
+}
+
 
 
 /*minus dates*/
